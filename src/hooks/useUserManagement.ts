@@ -2,7 +2,7 @@ import { v4 } from 'uuid'
 import { useRef, useState } from 'react'
 import { createLocalStorage, getStorageType } from '@/utils'
 import { StorageInterface, User } from '@/types'
-import { mockUsers } from '@/mocks'
+import { mockUsers } from '@/configs'
 
 export function useUserManagement() {
   const storageRef = useRef<StorageInterface | null>(getStorageType() === 'local-storage' ? createLocalStorage() : null)
