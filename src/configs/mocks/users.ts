@@ -7,8 +7,8 @@ export const mockUsers: User[] = [
     name: 'John doe',
     address: 'Seoul',
     memo: '외국인',
-    createdAt: new Date().toString(),
-    updatedAt: new Date().toString(),
+    createdAt: '2024-12-12',
+    updatedAt: '2024-12-12',
     job: '개발자',
     emailConsent: true
   }
