@@ -4,8 +4,8 @@ import { formatDate } from '@/utils'
 import { User, UserFormFields } from '@/types'
 
 /**
- * User form modal visibility 속성 관리 및 제출 함수를 가지고 있고,
- * 완전한 User form Management 작업이 아니기에 visibility와 제출의 이름을 고려해 handler로 명칭
+ * User form modal visibility 속성 관리 및 제출 함수를 가지고 있지만,
+ * 직접적인 User form 데이터에 대한 작업이 아니기에 visibility와 제출 기능을 고려해 handler로 명칭
  */
 export function useUserFormHandler() {
   const [isModalOpen, setIsModalOpen] = useState(false)
