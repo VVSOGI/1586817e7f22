@@ -86,11 +86,15 @@ export const getUserColumns = ({ users, handleDelete, handleUpdateModalOpen }: P
   {
     title: '이메일 수신 동의',
     dataIndex: 'emailConsent',
-    filters: Array.from(new Set(users.map((item) => item.emailConsent))).map((emailConsent) => ({
-      text: emailConsent,
-      value: emailConsent
-    })),
+    filters: [
+      { text: '선택됨', value: '선택됨' },
+      { text: '선택 안함', value: '선택 안함' }
+    ],
     filterDropdown: (props) => <DropdownMenu {...props} />,
+    onFilter: (value, record) => {
+      const compare = value === '선택됨' ? true : false
+      return record.emailConsent === compare
+    },
     render: (emailConsent) => <TableChecked checked={emailConsent} disabled={true} />
   },
   {
