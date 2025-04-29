@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { Checkbox, DatePicker, Modal, Select } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
-import { DefaultButton, ModalFormItem, Typography, UserModalInput, UserModalTextarea } from '@/components'
-import { processUserFields } from '@/utils'
+import { DefaultButton, ModalFormItem, Typography, UserFormModalInput, UserFormModalTextarea } from '@/components'
+import { convertUserToFormFields } from '@/utils'
 import { User, UserFormFields } from '@/types'
 import { defaultUserModalData } from '@/configs'
 import { COLORS } from '@/styles'
@@ -51,7 +51,7 @@ interface Props {
   handleModalClose: () => void
 }
 
-export function UserModal({ isModalOpen, initialUserData, handleAdd, handleUpdate, handleSubmit, handleModalClose }: Props) {
+export function UserFormModal({ isModalOpen, initialUserData, handleAdd, handleUpdate, handleSubmit, handleModalClose }: Props) {
   const [formData, setFormData] = useState<UserFormFields>(defaultUserModalData)
   const [activateSubmit, setActivateSubmit] = useState(true)
 
@@ -97,7 +97,7 @@ export function UserModal({ isModalOpen, initialUserData, handleAdd, handleUpdat
 
   useEffect(() => {
     if (initialUserData) {
-      setFormData(processUserFields(initialUserData))
+      setFormData(convertUserToFormFields(initialUserData))
     }
   }, [initialUserData])
 
@@ -110,13 +110,13 @@ export function UserModal({ isModalOpen, initialUserData, handleAdd, handleUpdat
 
       <ModalContents>
         <ModalFormItem label="이름" required={true}>
-          <UserModalInput formData={formData.name} handleChange={handleChange} />
+          <UserFormModalInput formData={formData.name} handleChange={handleChange} />
         </ModalFormItem>
         <ModalFormItem label="주소" required={false}>
-          <UserModalInput formData={formData.address} handleChange={handleChange} />
+          <UserFormModalInput formData={formData.address} handleChange={handleChange} />
         </ModalFormItem>
         <ModalFormItem label="메모" required={false}>
-          <UserModalTextarea formData={formData.memo} handleChange={handleChange} />
+          <UserFormModalTextarea formData={formData.memo} handleChange={handleChange} />
         </ModalFormItem>
         <ModalFormItem label="가입일" required={true}>
           <DatePicker onChange={(date) => handleChange('createdAt', { ...formData.createdAt, value: date.format('YYYY-MM-DD') })} />

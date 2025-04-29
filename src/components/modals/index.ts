@@ -1,4 +1,4 @@
 export * from './ModalFormItem'
-export * from './UserModalInput'
-export * from './UserModalTextarea'
-export * from './UserModal'
+export * from './UserFormModalInput'
+export * from './UserFormModalTextarea'
+export * from './UserFormModal'

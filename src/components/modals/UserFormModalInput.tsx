@@ -1,27 +1,26 @@
 import { Input } from 'antd'
 import { Error } from '@/components'
-import { UserFormFields } from '@/types'
+import { PreprocessedUser, UserFormFields } from '@/types'
 
 interface Props {
   formData: {
-    field: keyof UserFormFields
+    field: keyof PreprocessedUser
     value: string
     error: boolean
   }
   handleChange: <K extends keyof UserFormFields>(field: K, value: UserFormFields[K]) => void
 }
 
-export function UserModalTextarea({ formData, handleChange }: Props) {
+export function UserFormModalInput({ formData, handleChange }: Props) {
   return (
     <>
-      <Input.TextArea
+      <Input
         value={formData.value}
-        status={formData.value.length >= 50 ? 'error' : ''}
+        status={formData.value.length >= 20 ? 'error' : ''}
         onChange={(event) => {
-          if (event.target.value.length > 50) {
+          if (event.target.value.length > 20) {
             handleChange(formData.field, {
               ...formData,
-              field: formData.field,
               value: formData.value,
               error: true
             })
@@ -30,16 +29,13 @@ export function UserModalTextarea({ formData, handleChange }: Props) {
 
           handleChange(formData.field, {
             ...formData,
-            field: formData.field,
             value: event.target.value,
             error: false
           })
         }}
-        style={{ height: '64px' }}
-        placeholder={formData.field}
-        rows={4}
+        placeholder="Name"
       />
-      {formData.error && <Error.textareaError />}
+      {formData.error && <Error.textError />}
     </>
   )
 }
