@@ -7,10 +7,6 @@ const ButtonContainer = styled(Button)<ButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: auto;
-  margin-right: 14px;
-  padding: 0 12px;
-  background-color: ${COLORS.BLUE_400};
 
   &:hover {
     background-color: ${COLORS.BLUE_300} !important;
@@ -24,5 +20,9 @@ const ButtonContainer = styled(Button)<ButtonProps>`
 interface Props extends ButtonProps {}
 
 export function DefaultButton({ children, ...props }: Props) {
+  if (props.type === 'default' || props.disabled === true) {
+    return <Button {...props}>{children}</Button>
+  }
+
   return <ButtonContainer {...props}>{children}</ButtonContainer>
 }
