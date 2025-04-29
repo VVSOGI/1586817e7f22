@@ -1,4 +1,4 @@
-import { Table as AntTable, TableColumnsType } from 'antd'
+import { Table as AntTable, TableColumnsType, TableProps } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { useStorageManagement, useUserFormHandler } from '@/hooks'
 import { DefaultButton, Header, TableContainer, Typography, UserFormModal } from '@/components'
@@ -10,6 +10,7 @@ export default function App() {
   const { isModalOpen, initialUserData, handleModalOpen, handleModalClose, handleSubmit, handleUpdateModalOpen } = useUserFormHandler()
 
   const dataSource = users.map((user) => ({ key: user.id, ...user }))
+  const rowSelection: TableProps<User>['rowSelection'] = {}
   const columns: TableColumnsType<User> = getUserColumns({ users, handleDelete, handleUpdateModalOpen })
 
   return (
@@ -30,7 +31,7 @@ export default function App() {
         handleModalClose={handleModalClose}
       />
       <TableContainer>
-        <AntTable columns={columns} dataSource={dataSource} pagination={false} />
+        <AntTable rowSelection={rowSelection} columns={columns} dataSource={dataSource} pagination={false} />
       </TableContainer>
     </div>
   )

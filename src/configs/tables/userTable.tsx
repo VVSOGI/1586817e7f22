@@ -86,6 +86,8 @@ export const getUserColumns = ({ users, handleDelete, handleUpdateModalOpen }: P
   {
     title: '이메일 수신 동의',
     dataIndex: 'emailConsent',
+    width: 150,
+    minWidth: 150,
     filters: [
       { text: '선택됨', value: '선택됨' },
       { text: '선택 안함', value: '선택 안함' }
