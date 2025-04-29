@@ -36,6 +36,12 @@ interface Props {
   handleUpdateModalOpen: (data: User) => void
 }
 
+/**
+ * Table Columns 모음집
+ * @param users 테이블에 추가할 User[] 데이터
+ * @param handleDelete Dropdown의 삭제 기능에 사용될 delete 함수
+ * @param handleUpdateModalOpen Dropdown의 수정 기능에 사용될 Form 데이터 모달 관련 함수
+ */
 export const getUserColumns = ({ users, handleDelete, handleUpdateModalOpen }: Props): TableColumnsType<User> => [
   {
     title: '이름',

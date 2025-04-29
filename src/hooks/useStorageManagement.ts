@@ -27,10 +27,7 @@ export function useStorageManagement() {
       return prev.map((user) => {
         if (user.id === updated.id) {
           if (storageRef.current) {
-            storageRef.current.update({
-              ...user,
-              ...updated
-            })
+            storageRef.current.update({ ...user, ...updated })
           }
 
           return updated
