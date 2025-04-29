@@ -1,5 +1,5 @@
 import { Input } from 'antd'
-import { Error } from '@/components'
+import { ErrorMessages } from '@/components'
 import { PreprocessedUser, UserFormFields } from '@/types'
 
 interface Props {
@@ -35,7 +35,7 @@ export function UserFormModalInput({ formData, handleChange }: Props) {
         }}
         placeholder="Name"
       />
-      {formData.error && <Error.textError />}
+      {formData.error && <ErrorMessages.textError />}
     </>
   )
 }

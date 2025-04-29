@@ -1,5 +1,5 @@
 import { Input } from 'antd'
-import { Error } from '@/components'
+import { ErrorMessages } from '@/components'
 import { UserFormFields } from '@/types'
 
 interface Props {
@@ -39,7 +39,7 @@ export function UserFormModalTextarea({ formData, handleChange }: Props) {
         placeholder={formData.field}
         rows={4}
       />
-      {formData.error && <Error.textareaError />}
+      {formData.error && <ErrorMessages.textareaError />}
     </>
   )
 }
