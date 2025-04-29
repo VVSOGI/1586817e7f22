@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { Checkbox, DatePicker, Modal, Select } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
-import { COLORS } from '@/styles'
-import { DefaultButton, ModalFormItem, UserModalInput, UserModalTextarea, Typography } from '@/components'
-import { UserFormFields } from '@/types'
+import { DefaultButton, ModalFormItem, Typography, UserModalInput, UserModalTextarea } from '@/components'
+import { processUserFields } from '@/utils'
+import { User, UserFormFields } from '@/types'
 import { defaultUserModalData } from '@/configs'
+import { COLORS } from '@/styles'
 
 const ModalContainer = styled(Modal)`
   .ant-modal-content {
@@ -43,11 +44,14 @@ const ModalFooter = styled.div`
 
 interface Props {
   isModalOpen: boolean
+  initialUserData: User | undefined
+  handleAdd: (data: User) => void
+  handleUpdate: (data: User) => void
+  handleSubmit: (id: string | null, formdata: UserFormFields, submitCallback: (data: User) => void) => void
   handleModalClose: () => void
-  handleSubmit: (formdata: UserFormFields) => void
 }
 
-export function UserModal({ isModalOpen, handleModalClose, handleSubmit }: Props) {
+export function UserModal({ isModalOpen, initialUserData, handleAdd, handleUpdate, handleSubmit, handleModalClose }: Props) {
   const [formData, setFormData] = useState<UserFormFields>(defaultUserModalData)
   const [activateSubmit, setActivateSubmit] = useState(true)
 
@@ -58,7 +62,6 @@ export function UserModal({ isModalOpen, handleModalClose, handleSubmit }: Props
   ]
 
   /**
-   *
    * @param field 전처리 유저 상태 key값
    * @param value UserFormFields[Key]
    */
@@ -71,18 +74,15 @@ export function UserModal({ isModalOpen, handleModalClose, handleSubmit }: Props
    * @returns boolean
    */
   const validateSubmit = () => {
-    return Object.values(formData).every((data) => {
-      if (data.required) {
-        return data.error === false && (data.value as string).length > 0
-      }
-
-      return data.error === false
-    })
+    return (
+      Object.values(formData).every((data) => {
+        return data.error === false
+      }) &&
+      formData.name.value.length > 0 &&
+      formData.createdAt.value.length > 0
+    )
   }
 
-  /**
-   * isModalOpen값에 따른 초기화
-   */
   useEffect(() => {
     if (!isModalOpen) setFormData(defaultUserModalData)
   }, [isModalOpen])
@@ -95,10 +95,16 @@ export function UserModal({ isModalOpen, handleModalClose, handleSubmit }: Props
     }
   }, [formData])
 
+  useEffect(() => {
+    if (initialUserData) {
+      setFormData(processUserFields(initialUserData))
+    }
+  }, [initialUserData])
+
   return (
     <ModalContainer open={isModalOpen} footer={false} closeIcon={false}>
       <ModalHeader>
-        <div>회원 추가</div>
+        <div>회원 {initialUserData ? '수정' : '추가'}</div>
         <CloseOutlined style={{ fontSize: '16px', color: COLORS.GRAY_600 }} onClick={handleModalClose} />
       </ModalHeader>
 
@@ -136,14 +142,18 @@ export function UserModal({ isModalOpen, handleModalClose, handleSubmit }: Props
           </DefaultButton>
           <DefaultButton
             onClick={() => {
+              if (initialUserData) {
+                handleSubmit(initialUserData.id, formData, handleUpdate)
+              } else {
+                handleSubmit(null, formData, handleAdd)
+              }
               handleModalClose()
-              handleSubmit(formData)
             }}
             style={{ padding: '0 16px' }}
             type="primary"
             disabled={activateSubmit}
           >
-            <Typography.h2 style={{ width: '23px' }}>추가</Typography.h2>
+            <Typography.h2 style={{ width: '23px' }}>{initialUserData ? '수정' : '추가'}</Typography.h2>
           </DefaultButton>
         </div>
       </ModalFooter>
