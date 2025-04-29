@@ -8,3 +8,15 @@ export interface User {
   job: string
   emailConsent: boolean
 }
+
+export type PreprocessedUser = Omit<User, 'id' | 'updatedAt'>
+
+export type UserFormFields = {
+  [K in keyof PreprocessedUser]: {
+    type: 'text' | 'textarea' | 'select' | 'date' | 'checkbox'
+    field: keyof PreprocessedUser
+    value: PreprocessedUser[K]
+    error: boolean
+    required: boolean
+  }
+}
