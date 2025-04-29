@@ -1,7 +1,6 @@
-import { v4 } from 'uuid'
 import { useRef, useState } from 'react'
-import { createLocalStorage, formatDate, getStorageType } from '@/utils'
-import { PreprocessedUser, StorageInterface, User } from '@/types'
+import { createLocalStorage, getStorageType } from '@/utils'
+import { StorageInterface, User } from '@/types'
 import { mockUsers } from '@/configs'
 
 /**
@@ -15,20 +14,12 @@ export function useStorageManagement() {
     return storageRef.current ? storageRef.current.getAll() : [...mockUsers]
   })
 
-  const handleAdd = (userData: PreprocessedUser) => {
-    const newUser: User = {
-      id: v4(),
-      updatedAt: formatDate(new Date()),
-      ...userData
-    }
-
-    setUsers((prev) => [...prev, newUser])
+  const handleAdd = (created: User) => {
+    setUsers((prev) => [...prev, created])
 
     if (storageRef.current) {
-      storageRef.current.add(newUser)
+      storageRef.current.add(created)
     }
-
-    return newUser
   }
 
   const handleUpdate = (updated: User) => {
