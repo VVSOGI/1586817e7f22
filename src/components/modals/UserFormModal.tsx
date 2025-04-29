@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { styled } from 'styled-components'
 import { Checkbox, DatePicker, Modal, Select } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
@@ -76,7 +77,10 @@ export function UserFormModal({ isModalOpen, initialUserData, handleAdd, handleU
           <UserFormModalTextarea formData={formData.memo} handleChange={handleChange} />
         </ModalFormItem>
         <ModalFormItem label="가입일" required={true}>
-          <DatePicker onChange={(date) => handleChange('createdAt', { ...formData.createdAt, value: date.format('YYYY-MM-DD') })} />
+          <DatePicker
+            value={formData.createdAt.value ? dayjs(formData.createdAt.value) : null}
+            onChange={(date) => handleChange('createdAt', { ...formData.createdAt, value: date ? date.format('YYYY-MM-DD') : '' })}
+          />
         </ModalFormItem>
         <ModalFormItem label="직업" required={false}>
           <Select defaultValue="개발자" onChange={(value) => handleChange('job', { ...formData.job, value })} options={jobOptions} />
