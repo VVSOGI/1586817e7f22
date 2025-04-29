@@ -7,6 +7,7 @@ const ButtonContainer = styled(Button)<ButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: ${COLORS.BLUE_400};
 
   &:hover {
     background-color: ${COLORS.BLUE_300} !important;
