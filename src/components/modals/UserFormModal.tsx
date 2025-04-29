@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { Checkbox, DatePicker, Modal, Select } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
+import { useUserFormManagement } from '@/hooks'
 import { DefaultButton, ModalFormItem, Typography, UserFormModalInput, UserFormModalTextarea } from '@/components'
-import { convertUserToFormFields } from '@/utils'
 import { User, UserFormFields } from '@/types'
-import { defaultUserModalData } from '@/configs'
 import { COLORS } from '@/styles'
 
 const ModalContainer = styled(Modal)`
@@ -52,54 +50,13 @@ interface Props {
 }
 
 export function UserFormModal({ isModalOpen, initialUserData, handleAdd, handleUpdate, handleSubmit, handleModalClose }: Props) {
-  const [formData, setFormData] = useState<UserFormFields>(defaultUserModalData)
-  const [activateSubmit, setActivateSubmit] = useState(true)
+  const { formData, activateSubmit, handleChange } = useUserFormManagement({ isModalOpen, initialUserData })
 
   const jobOptions = [
     { value: '개발자', label: '개발자' },
     { value: 'PO', label: 'PO' },
     { value: '디자이너', label: '디자이너' }
   ]
-
-  /**
-   * @param field 전처리 유저 상태 key값
-   * @param value UserFormFields[Key]
-   */
-  const handleChange = <K extends keyof UserFormFields>(field: K, value: UserFormFields[K]) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
-
-  /**
-   * 추가 버튼 Validation check
-   * @returns boolean
-   */
-  const validateSubmit = () => {
-    return (
-      Object.values(formData).every((data) => {
-        return data.error === false
-      }) &&
-      formData.name.value.length > 0 &&
-      formData.createdAt.value.length > 0
-    )
-  }
-
-  useEffect(() => {
-    if (!isModalOpen) setFormData(defaultUserModalData)
-  }, [isModalOpen])
-
-  useEffect(() => {
-    if (validateSubmit()) {
-      setActivateSubmit(false)
-    } else {
-      setActivateSubmit(true)
-    }
-  }, [formData])
-
-  useEffect(() => {
-    if (initialUserData) {
-      setFormData(convertUserToFormFields(initialUserData))
-    }
-  }, [initialUserData])
 
   return (
     <ModalContainer open={isModalOpen} footer={false} closeIcon={false}>
@@ -131,13 +88,7 @@ export function UserFormModal({ isModalOpen, initialUserData, handleAdd, handleU
 
       <ModalFooter>
         <div style={{ display: 'flex', gap: '8px' }}>
-          <DefaultButton
-            onClick={() => {
-              handleModalClose()
-            }}
-            style={{ padding: '0 16px' }}
-            type="default"
-          >
+          <DefaultButton onClick={handleModalClose} style={{ padding: '0 16px' }} type="default">
             <Typography.h2 style={{ width: '23px' }}>취소</Typography.h2>
           </DefaultButton>
           <DefaultButton
