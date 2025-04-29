@@ -1,6 +1,8 @@
 import { styled } from 'styled-components'
 import { Checkbox, Menu } from 'antd'
 import { FilterDropdownProps } from 'antd/es/table/interface'
+import { DefaultButton } from '../buttons'
+import { COLORS } from '@/styles'
 
 const MenuContainer = styled.div`
   padding: 8px;
@@ -9,6 +11,9 @@ const MenuContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
+    margin-bottom: 12px !important;
+    padding-bottom: 4px !important;
+    border-bottom: 1px solid ${COLORS.GRAY_300} !important;
   }
 `
 
@@ -21,7 +26,7 @@ const MenuItem = styled(Menu.Item)`
 `
 
 export function DropdownMenu(props: FilterDropdownProps) {
-  const { filters, selectedKeys, setSelectedKeys, confirm } = props
+  const { filters, selectedKeys, setSelectedKeys, confirm, clearFilters } = props
 
   return (
     <MenuContainer>
@@ -38,6 +43,18 @@ export function DropdownMenu(props: FilterDropdownProps) {
           </MenuItem>
         ))}
       </Menu>
+      <DefaultButton
+        onClick={() => {
+          if (clearFilters) {
+            clearFilters()
+          }
+          confirm()
+        }}
+        style={{ width: '100%', height: '24px' }}
+        type="primary"
+      >
+        리셋
+      </DefaultButton>
     </MenuContainer>
   )
 }
