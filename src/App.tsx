@@ -1,13 +1,13 @@
 import { Table as AntTable, TableColumnsType, TableProps } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { useStorageManagement, useUserModal } from '@/hooks'
-import { DefaultButton, Header, TableContainer, Typography, UserModal } from '@/components'
+import { useStorageManagement, useUserFormHandler } from '@/hooks'
+import { DefaultButton, Header, TableContainer, Typography, UserFormModal } from '@/components'
 import { User } from '@/types'
 import { getUserColumns } from '@/configs'
 
 export default function App() {
   const { users, handleAdd, handleUpdate, handleDelete } = useStorageManagement()
-  const { isModalOpen, initialUserData, handleModalOpen, handleModalClose, handleSubmit, handleUpdateModalOpen } = useUserModal()
+  const { isModalOpen, initialUserData, handleModalOpen, handleModalClose, handleSubmit, handleUpdateModalOpen } = useUserFormHandler()
 
   const dataSource = users.map((user) => {
     return {
@@ -27,7 +27,7 @@ export default function App() {
           <Typography.h2>추가</Typography.h2>
         </DefaultButton>
       </Header>
-      <UserModal
+      <UserFormModal
         isModalOpen={isModalOpen}
         initialUserData={initialUserData}
         handleAdd={handleAdd}
