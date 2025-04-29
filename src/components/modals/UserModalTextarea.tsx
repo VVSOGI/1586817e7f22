@@ -1,16 +1,16 @@
 import { Input } from 'antd'
 import { Error } from '@/components'
-import { PreprocessedUser, UserFormFields } from '@/types'
+import { UserFormFields } from '@/types'
 
 interface Props {
   formData: {
     type: 'text' | 'textarea' | 'select' | 'date' | 'checkbox'
-    field: keyof PreprocessedUser
+    field: keyof UserFormFields
     value: string
     error: boolean
     required: boolean
   }
-  handleChange: <K extends keyof PreprocessedUser>(field: K, value: UserFormFields[K]) => void
+  handleChange: <K extends keyof UserFormFields>(field: K, value: UserFormFields[K]) => void
 }
 
 export function UserModalTextarea({ formData, handleChange }: Props) {

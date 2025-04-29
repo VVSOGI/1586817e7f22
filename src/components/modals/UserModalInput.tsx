@@ -10,7 +10,7 @@ interface Props {
     error: boolean
     required: boolean
   }
-  handleChange: <K extends keyof PreprocessedUser>(field: K, value: UserFormFields[K]) => void
+  handleChange: <K extends keyof UserFormFields>(field: K, value: UserFormFields[K]) => void
 }
 
 export function UserModalInput({ formData, handleChange }: Props) {

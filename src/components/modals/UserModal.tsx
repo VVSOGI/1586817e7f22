@@ -4,7 +4,7 @@ import { Checkbox, DatePicker, Modal, Select } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { COLORS } from '@/styles'
 import { DefaultButton, ModalFormItem, UserModalInput, UserModalTextarea, Typography } from '@/components'
-import { PreprocessedUser, UserFormFields } from '@/types'
+import { UserFormFields } from '@/types'
 import { defaultUserModalData } from '@/configs'
 
 const ModalContainer = styled(Modal)`
@@ -57,10 +57,19 @@ export function UserModal({ isModalOpen, handleModalClose, handleSubmit }: Props
     { value: '디자이너', label: '디자이너' }
   ]
 
-  const handleChange = <K extends keyof PreprocessedUser>(field: K, value: UserFormFields[K]) => {
+  /**
+   *
+   * @param field 전처리 유저 상태 key값
+   * @param value UserFormFields[Key]
+   */
+  const handleChange = <K extends keyof UserFormFields>(field: K, value: UserFormFields[K]) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
+  /**
+   * 추가 버튼 Validation check
+   * @returns boolean
+   */
   const validateSubmit = () => {
     return Object.values(formData).every((data) => {
       if (data.required) {
@@ -71,6 +80,9 @@ export function UserModal({ isModalOpen, handleModalClose, handleSubmit }: Props
     })
   }
 
+  /**
+   * isModalOpen값에 따른 초기화
+   */
   useEffect(() => {
     if (!isModalOpen) setFormData(defaultUserModalData)
   }, [isModalOpen])
