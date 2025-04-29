@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { Checkbox, TableColumnsType } from 'antd'
-import { ActionDropdown, DropdownMenu } from '@/components'
+import { Checkbox, Dropdown, TableColumnsType } from 'antd'
+import { MoreOutlined } from '@ant-design/icons'
+import { DropdownMenu } from '@/components'
 import { User } from '@/types'
 import { COLORS } from '@/styles'
 
@@ -19,7 +20,23 @@ const TableChecked = styled(Checkbox)`
   }
 `
 
-export const getUserColumns = (users: User[]): TableColumnsType<User> => [
+const OutlineContainer = styled.div`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+interface Props {
+  users: User[]
+  handleDelete: (id: string) => void
+  handleUpdateModalOpen: (data: User) => void
+}
+
+export const getUserColumns = ({ users, handleDelete, handleUpdateModalOpen }: Props): TableColumnsType<User> => [
   {
     title: '이름',
     dataIndex: 'name',
@@ -72,6 +89,25 @@ export const getUserColumns = (users: User[]): TableColumnsType<User> => [
   },
   {
     width: 48,
-    render: () => <ActionDropdown />
+    render: (_, record) => (
+      <Dropdown
+        trigger={['click']}
+        menu={{
+          items: [
+            { key: '1', label: '수정', onClick: () => handleUpdateModalOpen(record) },
+            { type: 'divider' },
+            { key: '2', label: '삭제', style: { color: COLORS.ERROR }, onClick: () => handleDelete(record.id) }
+          ],
+          style: {
+            width: '181px',
+            transform: 'translateX(-6px)'
+          }
+        }}
+      >
+        <OutlineContainer>
+          <MoreOutlined />
+        </OutlineContainer>
+      </Dropdown>
+    )
   }
 ]
