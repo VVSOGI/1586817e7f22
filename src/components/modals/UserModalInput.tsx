@@ -4,11 +4,9 @@ import { PreprocessedUser, UserFormFields } from '@/types'
 
 interface Props {
   formData: {
-    type: 'text' | 'textarea' | 'select' | 'date' | 'checkbox'
     field: keyof PreprocessedUser
     value: string
     error: boolean
-    required: boolean
   }
   handleChange: <K extends keyof UserFormFields>(field: K, value: UserFormFields[K]) => void
 }
